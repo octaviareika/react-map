@@ -92,6 +92,13 @@ function App() {
     setPosition(null);
   }
 
+  const formularioResetar = () => {
+    setName("");
+    setAddress(null);
+    setComplement("");
+    setPosition(null);
+  }
+
   return (
     <div id="page-map">
       <main>
@@ -135,6 +142,7 @@ function App() {
           <button className="confirm-button" type="submit">
             Confirmar
           </button>
+          <button className="confirm-button" type="button" onClick={formularioResetar}>Resetar</button>
         </form>
       </main>
 
@@ -159,18 +167,25 @@ function App() {
             key={delivery.id}
             icon={mapPackageIcon}
             position={[delivery.latitude, delivery.longitude]}
+
           >
-            <Popup
-              closeButton={false}
-              minWidth={240}
-              maxWidth={240}
-              className="map-popup"
+            <Popup className="map-popup"
+              // closeButton={false}
+              // minWidth={240}
+              // maxWidth={240}
+              // className="map-popup"
             >
               <div>
                 <h3>{delivery.name}</h3>
                 <p>
                   {delivery.address} - {delivery.complement}
                 </p>
+                <button
+                  onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${delivery.latitude},${delivery.longitude}`, '_blank')}
+                  style={{ marginTop: '10px' }}
+                >
+                  Ver rota no Google Maps
+                  </button>
               </div>
             </Popup>
           </Marker>
