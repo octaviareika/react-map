@@ -99,6 +99,23 @@ function App() {
     setPosition(null);
   }
 
+  // Função para remover entrega
+  const handleRemoveDelivery = (id: string) => {
+    setDeliveries(deliveries.filter((delivery) => delivery.id !== id));
+  };
+
+  // Função para editar uma entrega já cadastrada
+  const handleEditDelivery = (id:string) => {
+    const delivery = deliveries.find((delivery) => delivery.id === id);
+    if (!delivery) return;
+
+    setName(delivery.name);
+    setAddress({ label: delivery.address, value: delivery.address });
+    setComplement(delivery.complement);
+    setPosition({ latitude: delivery.latitude, longitude: delivery.longitude });
+    handleRemoveDelivery(id);
+  }
+
   return (
     <div id="page-map">
       <main>
@@ -168,8 +185,9 @@ function App() {
             icon={mapPackageIcon}
             position={[delivery.latitude, delivery.longitude]}
 
-          >
-            <Popup className="map-popup"
+          > 
+            <Popup className="map-popup" 
+            // parte do pop-up
               // closeButton={false}
               // minWidth={240}
               // maxWidth={240}
@@ -186,6 +204,20 @@ function App() {
                 >
                   Ver rota no Google Maps
                   </button>
+
+                  <button
+                    onClick={() => handleEditDelivery(delivery.id)}
+                    style={{ marginTop: '10px' }}
+                  >
+                    Editar 
+                  </button> {/* Botão para editar entrega */}
+
+                  <button
+                    onClick={() => handleRemoveDelivery(delivery.id)}
+                    style={{ marginTop: '10px' }}
+                  >
+                    Remover
+                  </button> {/* Botão para remover entrega */}
               </div>
             </Popup>
           </Marker>
